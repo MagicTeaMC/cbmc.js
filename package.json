@@ -1,7 +1,7 @@
 {
-  "name": "cbmc",
+  "name": "cbmc-js",
   "version": "1.0.0",
-  "description": "麥塊匿名發文平台的 package",
+  "description": "用於麥塊匿名發文平台的 npm package",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
