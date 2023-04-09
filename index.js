@@ -6,18 +6,18 @@ class APIMonitor {
     this.checkInterval = checkInterval;
     this.lastUpdateTime = null;
     this.isRunning = false;
-    this.thread = null;
+    this.intervalId = null;
     this.onUpdate = null;
   }
 
   start() {
     this.isRunning = true;
-    this.thread = setInterval(this._monitorLoop.bind(this), this.checkInterval * 1000);
+    this.intervalId = setInterval(() => this._monitorLoop(), this.checkInterval * 1000);
   }
 
   stop() {
     this.isRunning = false;
-    clearInterval(this.thread);
+    clearInterval(this.intervalId);
   }
 
   async _monitorLoop() {
@@ -31,31 +31,31 @@ class APIMonitor {
         }
         if (updateTime !== this.lastUpdateTime) {
           this.lastUpdateTime = updateTime;
-          if (this.onUpdate) {
+          if (typeof this.onUpdate === 'function') {
             await this.onUpdate(updateTime);
           }
         }
       } else {
-        console.log(`API request failed with status code ${response.status}`);
+        console.error(`API request failed with status code ${response.status}`);
       }
-    } catch (error) {
-      console.log(`API request failed with error: ${error.message}`);
+    } catch (err) {
+      console.error(`API request failed with error: ${err}`);
     }
   }
 }
 
-function onpost(onUpdate) {
+function onPost(onUpdate = null) {
   const monitor = new APIMonitor('https://api.cbmc.club/v1/latest?limit=1', 10);
   monitor.onUpdate = onUpdate;
   monitor.start();
 }
 
-async function postList(limit) {
+async function getPostList(limit) {
   try {
-    const response = await axios.get(`https://api.cbmc.club/v1/latest?limit=${limit > 300 ? 300 : limit}`);
+    const response = await axios.get(`https://api.cbmc.club/v1/latest?limit=${Math.min(limit, 300)}`);
     return response.data;
-  } catch (error) {
-    console.log(`API request failed with error: ${error.message}`);
+  } catch (err) {
+    console.error(`API request failed with error: ${err}`);
     return null;
   }
 }
@@ -63,15 +63,15 @@ async function postList(limit) {
 async function getPost(platformId) {
   try {
     const response = await axios.get(`https://api.cbmc.club/v1/post/${platformId}`);
-    return response.data.status === 'failed' ? null : response.data;
-  } catch (error) {
-    console.log(`API request failed with error: ${error.message}`);
+    return response.data;
+  } catch (err) {
+    console.error(`API request failed with error: ${err}`);
     return null;
   }
 }
 
 module.exports = {
-  onpost,
-  postList,
-  getPost
+  onPost,
+  getPostList,
+  getPost,
 };
