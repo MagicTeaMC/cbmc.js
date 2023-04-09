@@ -1,0 +1,23 @@
+{
+  "name": "cbmc",
+  "version": "1.0.0",
+  "description": "麥塊匿名發文平台的 package",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MagicTeaMC"
+  },
+  "keywords": [
+    "cbmc",
+    "npm",
+    "api"
+  ],
+  "author": "Maoyue",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "axios": "0.24.0"
+  }
+}
