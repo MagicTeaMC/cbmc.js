@@ -10,28 +10,25 @@ npm install cbmc-js
 ```js
 const cbmc = require('cbmc-js');
 
-// 當新文章發布時自動推送文章。
-async function on_post(updated) {
-  console.log(`讀取到新的文章：\n${updated}`);
-}
-cbmc.onpost({ on_update: on_post });
+// 監聽文章更新事件，並在文章更新時執行某些操作
+cbmc.onPost((updateTime) => {
+  console.log(`New post updated at ${updateTime}`);
+  // 在文章更新時做些什麼事情...
+});
 
+// 取得最新的幾篇文章
+(async () => {
+  const postList = await cbmc.getPostList(5); // 取得最新的 5 篇文章
+  if (postList) {
+    console.log(postList.posts); // 輸出文章清單
+  }
+})();
 
-// 取得一定數量的文章列表，最大限制為300。
-cbmc.post_list(1)
-  .then((postList) => {
-    console.log(postList);
-  })
-  .catch((err) => {
-    console.error(err);
-  });
-
-// 使用編號指定文章，如果無此文章則會返回 None。
-cbmc.get_post(1)
-  .then((post) => {
-    console.log(post);
-  })
-  .catch((err) => {
-    console.error(err);
-  });
+// 取得指定文章
+(async () => {
+  const post = await cbmc.getPost('1234'); // 取得 platformId 為 '1234' 的文章
+  if (post) {
+    console.log(post); // 輸出文章詳細資訊
+  }
+})();
 ```
