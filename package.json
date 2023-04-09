@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/MagicTeaMC"
+    "url": "https://github.com/MagicTeaMC/cbmc.js"
   },
   "keywords": [
     "cbmc",
