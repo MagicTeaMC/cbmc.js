@@ -44,6 +44,7 @@ class APIMonitor {
       }
     } catch (err) {
       console.error(`API request failed. Error: ${err.message}`);
+      throw err;
     }
   }
 }
@@ -59,7 +60,9 @@ async function getPostList(limit) {
     const response = await axios.get(`https://api.cbmc.club/v1/latest?limit=${Math.min(limit, 300)}`);
     return response.data;
   } catch (err) {
-    console.error(`API request failed. Error: ${err.message}`);
+    console.error('An error occurred while retrieving the post list:');
+    console.error(err);
+    throw err;
     return null;
   }
 }
@@ -69,7 +72,9 @@ async function getPost(platformId) {
     const response = await axios.get(`https://api.cbmc.club/v1/post/${platformId}`);
     return response.data;
   } catch (err) {
-    console.error(`API request failed. Error: ${err.message}`);
+    console.error('An error occurred while retrieving the post:');
+    console.error(err);
+    throw err;
     return null;
   }
 }
