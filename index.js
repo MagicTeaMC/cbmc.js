@@ -11,13 +11,17 @@ class APIMonitor {
   }
 
   start() {
-    this.isRunning = true;
-    this.intervalId = setInterval(() => this._monitorLoop(), this.checkInterval * 1000);
+    if (!this.isRunning) {
+      this.isRunning = true;
+      this.intervalId = setInterval(() => this._monitorLoop(), this.checkInterval * 1000);
+    }
   }
 
   stop() {
-    this.isRunning = false;
-    clearInterval(this.intervalId);
+    if (this.isRunning) {
+      this.isRunning = false;
+      clearInterval(this.intervalId);
+    }
   }
 
   async _monitorLoop() {
@@ -36,10 +40,10 @@ class APIMonitor {
           }
         }
       } else {
-        console.error(`API request failed with status code ${response.status}`);
+        console.error(`API request failed. Status code: ${response.status}`);
       }
     } catch (err) {
-      console.error(`API request failed with error: ${err}`);
+      console.error(`API request failed. Error: ${err.message}`);
     }
   }
 }
@@ -55,7 +59,7 @@ async function getPostList(limit) {
     const response = await axios.get(`https://api.cbmc.club/v1/latest?limit=${Math.min(limit, 300)}`);
     return response.data;
   } catch (err) {
-    console.error(`API request failed with error: ${err}`);
+    console.error(`API request failed. Error: ${err.message}`);
     return null;
   }
 }
@@ -65,7 +69,7 @@ async function getPost(platformId) {
     const response = await axios.get(`https://api.cbmc.club/v1/post/${platformId}`);
     return response.data;
   } catch (err) {
-    console.error(`API request failed with error: ${err}`);
+    console.error(`API request failed. Error: ${err.message}`);
     return null;
   }
 }
