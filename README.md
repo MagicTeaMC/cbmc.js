@@ -1,10 +1,10 @@
-# cbmc.js
 <div align="center">
     <p>
         <a href="https://www.npmjs.com/package/cbmc-js"><img src="https://img.shields.io/npm/v/cbmc-js.svg?maxAge=3600" alt="npm version" /></a>
         <a href="https://www.npmjs.com/package/cbmc-js"><img src="https://img.shields.io/npm/dt/cbmc-js.svg?maxAge=3600" alt="npm downloads" /></a>
     </p>
 </div>
+
 ## 關於
 這是一個用於麥塊匿名發文平台的 npm package。  
 ## 安裝方法
